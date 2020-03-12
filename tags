@@ -8,9 +8,11 @@
 !_TAG_PROGRAM_VERSION	0.0.0	/381d6ba/
 FRONTEND	src/client.py	/^FRONTEND = Pyro4.Proxy('PYRONAME:justHungry.frontend')$/;"	v
 GreetingMaker	example/nserver.py	/^class GreetingMaker(object):$/;"	c
+PRIMARY	src/frontend.py	/^PRIMARY = None$/;"	v
 confirm_order	src/client.py	/^def confirm_order(store, order_item, quant, address):$/;"	f
 daemon	example/nserver.py	/^daemon = Pyro4.Daemon()                # make a Pyro daemon$/;"	v
 finalise_order	src/client.py	/^def finalise_order(store, order_item, quant, address):$/;"	f
+frontend	src/frontend.py	/^class frontend(object):$/;"	c
 get_fortune	example/nserver.py	/^    def get_fortune(self):$/;"	m	class:GreetingMaker
 main	src/client.py	/^def main():$/;"	f
 name	example/nclient.py	/^name = input("What is your name? ").strip()$/;"	v
@@ -22,4 +24,3 @@ select_store	src/client.py	/^def select_store():$/;"	f
 submit_postcode	src/client.py	/^def submit_postcode():$/;"	f
 uri	example/nserver.py	/^uri = daemon.register(GreetingMaker)   # register the greeting maker as a Pyro object$/;"	v
 verify_address	src/client.py	/^def verify_address(address):$/;"	f
-x	src/hmmm.py	/^x = 3$/;"	v
