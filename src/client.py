@@ -11,7 +11,11 @@ except Pyro4.errors.PyroError:
 
 def select_store():
     stores = FRONTEND.getStores()
-    for count, store in enumerate(stores, 1):
+    print('Please select one of the stores, or type quit to go back')
+    if stores[0] == 'ERROR':
+        print('Cannot get stores from server')
+        return -1
+    for count, store in enumerate(stores[1], 1):
         print(count, store, sep='. ')
     while True:
         resp = input()
@@ -27,7 +31,12 @@ def select_store():
 
 def select_item(store):
     items = FRONTEND.getItems(store)
-    for count, item in enumerate(items, 1):
+    print(f'Thank you for selecting {FRONTEND.getStoreName(store-1)}.' +
+          f' Please select an item to order or type quit to go back')
+    if items[0] == 'ERROR':
+        print('Cannot get items from server')
+        return -1
+    for count, item in enumerate(items[1], 1):
         print(f'{count}. {item[0]}\t£{item[1]}\tstock:{item[2]}')
     while True:
         resp = input()
@@ -43,11 +52,18 @@ def select_item(store):
 
 def select_quantity(store, order_item):
     item = FRONTEND.getItem(store, order_item)
+    print(f'Thank you for selecting ' +
+          f'{FRONTEND.getItemName(store-1, order_item-1)}.' +
+          f' Please enter how much you would like to order or ' +
+          f'type quit to go back')
+    if not item:
+        print('Cannot get item from server')
+        return -1
     current_stock = item[2]
     while True:
         resp = input()
         try:
-            if 0 <= int(resp) <= current_stock:
+            if 0 < int(resp) <= current_stock:
                 return int(resp)
         except ValueError:
             pass
@@ -61,6 +77,7 @@ def place_order(store, order_item, quant):
 
 
 def submit_postcode():
+    print('Please enter a postcode for the intended delivery location')
     postcode = input()
     return FRONTEND.getAddress(postcode)
 
@@ -113,7 +130,6 @@ def finalise_order(store, order_item, quant, address):
 def flow_postcode(store, order_item, quant):
     while True:
         address = submit_postcode()  # add api failed option
-        print('Please enter a postcode for the intended delivery location')
         if not address:
             print('Invalid postcode entered')
             return False
@@ -144,10 +160,6 @@ def flow_postcode(store, order_item, quant):
 def flow_quant(store, order_item):
     while True:
         quant = select_quantity(store, order_item)  # add back option
-        print(f'Thank you for selecting ' +
-              f'{FRONTEND.getItemName(store-1, order_item-1)}.' +
-              f' Please enter how much you would like to order or ' +
-              f'type quit to go back')
         if quant == -1:
             return False
         print('Your order will now be placed')
@@ -164,8 +176,6 @@ def flow_quant(store, order_item):
 def flow_order_item(store):
     while True:
         order_item = select_item(store-1)  # add back option
-        print(f'Thank you for selecting {FRONTEND.getStoreName(store-1)}.' +
-              f' Please select an item to order or type quit to go back')
         if order_item == -1:
             return False
         res = flow_quant(store, order_item-1)
@@ -174,20 +184,35 @@ def flow_order_item(store):
         return True
 
 
-def main():
-    print('Welcome to the Just Hungry store. Here you can order various' +
-          ' foodstuffs to any location you want.')
+def order():
     while True:
         store = select_store()
-        print('Please select one of the stores, or type quit to exit')
         if store == -1:
-            print('Thank you for doing business with us today')
             break
         while True:
             res = flow_order_item(store-1)
             if not res:
                 break
-            sys.exit()
+
+def view():
+    pass
+
+
+def main():
+    print('Welcome to the Just Hungry store. Here you can order various' +
+          ' foodstuffs to any location you want.')
+    while True:
+        print('Would you like to:\n1. Make an order\n2. View your orders\n3. Quit')
+        answer = input()
+        if answer == '1':
+            order()
+        elif answer == '2':
+            view()
+        elif answer.lower() in ['quit', '3']:
+            print('Thank you for doing business with us today')
+            break
+        else:
+            print('Not a valid option. Try again')
     # Loopify
 
 

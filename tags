@@ -6,21 +6,22 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	/381d6ba/
+Backend	src/backend.py	/^class Backend():$/;"	c
 Frontend	src/frontend.py	/^class Frontend():$/;"	c
 GreetingMaker	example/nserver.py	/^class GreetingMaker(object):$/;"	c
-PRIMARY	src/frontend.py	/^PRIMARY = None$/;"	v
+__init__	src/backend.py	/^    def __init__(self):$/;"	m	class:Backend
 __init__	src/frontend.py	/^    def __init__(self):$/;"	m	class:Frontend
-check_primary	src/frontend.py	/^    def check_primary(self):$/;"	m	class:Frontend
 confirm_order	src/client.py	/^def confirm_order(store, order_item, quant, address):$/;"	f
 daemon	example/nserver.py	/^daemon = Pyro4.Daemon()                # make a Pyro daemon$/;"	v
 finaliseOrder	src/frontend.py	/^    def finaliseOrder(self, store, order_item, quant, address):$/;"	m	class:Frontend
 finalise_order	src/client.py	/^def finalise_order(store, order_item, quant, address):$/;"	f
+find_backups	src/backend.py	/^    def find_backups(self):$/;"	m	class:Backend
 find_primary	src/frontend.py	/^    def find_primary(self):$/;"	m	class:Frontend
 flow_order_item	src/client.py	/^def flow_order_item(store):$/;"	f
 flow_postcode	src/client.py	/^def flow_postcode(store, order_item, quant):$/;"	f
 flow_quant	src/client.py	/^def flow_quant(store, order_item):$/;"	f
-frontend	src/frontend.py	/^    frontend = Frontend()$/;"	v
-frontend_uri	src/frontend.py	/^    frontend_uri = daemon.register(frontend)$/;"	v
+frontend	src/frontend.py	/^        frontend = Frontend()$/;"	v
+frontend_uri	src/frontend.py	/^        frontend_uri = daemon.register(frontend)$/;"	v
 getAddress	src/frontend.py	/^    def getAddress(self, postcode):$/;"	m	class:Frontend
 getItem	src/frontend.py	/^    def getItem(self, store, order_item):$/;"	m	class:Frontend
 getItemName	src/frontend.py	/^    def getItemName(self, store, order_item):$/;"	m	class:Frontend
@@ -33,6 +34,7 @@ house_number	src/client.py	/^def house_number():$/;"	f
 main	src/client.py	/^def main():$/;"	f
 name	example/nclient.py	/^name = input("What is your name? ").strip()$/;"	v
 ns	example/nserver.py	/^ns = Pyro4.locateNS()                  # find the name server$/;"	v
+order	src/client.py	/^def order():$/;"	f
 placeOrder	src/frontend.py	/^    def placeOrder(self, store, order_item, quant):$/;"	m	class:Frontend
 place_order	src/client.py	/^def place_order(store, order_item, quant):$/;"	f
 remove_primary	src/frontend.py	/^    def remove_primary(self):$/;"	m	class:Frontend
@@ -43,3 +45,4 @@ street_name	src/client.py	/^def street_name():$/;"	f
 submit_postcode	src/client.py	/^def submit_postcode():$/;"	f
 uri	example/nserver.py	/^uri = daemon.register(GreetingMaker)   # register the greeting maker as a Pyro object$/;"	v
 verify_address	src/client.py	/^def verify_address(address):$/;"	f
+view	src/client.py	/^def view():$/;"	f
