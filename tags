@@ -22,6 +22,7 @@ flow_postcode	src/client.py	/^def flow_postcode(store, order_item, quant):$/;"	f
 flow_quant	src/client.py	/^def flow_quant(store, order_item):$/;"	f
 frontend	src/frontend.py	/^    frontend = Frontend()$/;"	v
 frontend_uri	src/frontend.py	/^    frontend_uri = daemon.register(frontend)$/;"	v
+func	src/hmm.py	/^def func():$/;"	f
 getAddress	src/frontend.py	/^    def getAddress(self, postcode):$/;"	m	class:Frontend
 getItem	src/frontend.py	/^    def getItem(self, store, order_item):$/;"	m	class:Frontend
 getItemName	src/frontend.py	/^    def getItemName(self, store, order_item):$/;"	m	class:Frontend
@@ -31,7 +32,6 @@ getStores	src/frontend.py	/^    def getStores(self):$/;"	m	class:Frontend
 get_fortune	example/nserver.py	/^    def get_fortune(self):$/;"	m	class:GreetingMaker
 hmm	example/nclient.py	/^hmm = Pyro4.Proxy("PYRONAME:example.greeting")    # use name server object lookup uri shortcut$/;"	v
 house_number	src/client.py	/^def house_number():$/;"	f
-kek	src/hmm.py	/^kek = "jfabgg"$/;"	v
 main	src/client.py	/^def main():$/;"	f
 name	example/nclient.py	/^name = input("What is your name? ").strip()$/;"	v
 ns	example/nserver.py	/^ns = Pyro4.locateNS()                  # find the name server$/;"	v

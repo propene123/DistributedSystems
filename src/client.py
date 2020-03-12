@@ -1,5 +1,6 @@
 import sys
 import Pyro4
+import Pyro4.errors
 
 
 FRONTEND = Pyro4.Proxy('PYRONAME:justHungry.frontend')
@@ -107,62 +108,87 @@ def finalise_order(store, order_item, quant, address):
 
 
 def flow_postcode(store, order_item, quant):
-    address = submit_postcode()  # add api failed option
-    print(f'Please enter building number for location:\n{address}')
-    number = house_number()
-    print(f'Please enter street name for location:\n{address}')
-    street = street_name()
-    address = number + '\n' + street + '\n' + address
-    correct_address = verify_address(address)  # add incorrect option
-    if not correct_address:
-        return correct_address
-    confirm = confirm_order(store, order_item,
-                            quant, address)  # add no option
-    if not confirm:
-        return confirm
-    print('Your order will now be finalised')
-    success = finalise_order(store, order_item,
-                             quant, address)  # add failed option
-    if not success:
-        return False
-    print('Your order has been successfully placed. Your goods will arrive' +
-          ' neither early nor late but exactly when the mean to')
-    return True
+    while True:
+        print('Please enter a postcode for the intended delivery location')
+        address = submit_postcode()  # add api failed option
+        if not address:
+            print('Invalid postcode entered')
+            return False
+        print(f'Please enter building number for location:\n{address}')
+        number = house_number()
+        print(f'Please enter street name for location:\n{address}')
+        street = street_name()
+        address = number + '\n' + street + '\n' + address
+        correct_address = verify_address(address)  # add incorrect option
+        if not correct_address:
+            continue
+        confirm = confirm_order(store, order_item,
+                                quant, address)  # add no option
+        if not confirm:
+            print('You may redo your order')
+            return False
+        print('Your order will now be finalised')
+        success = finalise_order(store, order_item,
+                                 quant, address)  # add failed option
+        if not success:
+            print('There was an error placing your order please try again')
+            return False
+        print('Your order has been successfully placed. Your goods will arrive' +
+              ' neither early nor late but exactly when the mean to')
+        return True
 
 
 def flow_quant(store, order_item):
-    quant = select_quantity(store, order_item)  # add back option
-    if quant == -1:
-        return False
-    print('Your order will now be placed')
-    order = place_order(store, order_item, quant)
-    if not order:
-        return order
-    print('Please enter a postcode for the intended delivery location')
-    return flow_postcode(store, order_item, quant)
+    while True:
+        print(f'Thank you for selecting ' +
+              f'{FRONTEND.getItemName(store-1, order_item-1)}.' +
+              f' Please enter how much you would like to order or ' +
+              f'type quit to go back')
+        quant = select_quantity(store, order_item)  # add back option
+        if quant == -1:
+            return False
+        print('Your order will now be placed')
+        order = place_order(store, order_item, quant)
+        if not order:
+            print('There was a problem placing your order, you may try again')
+            continue
+        res = flow_postcode(store, order_item, quant)
+        if not res:
+            continue
+        return True
 
 
 def flow_order_item(store):
-    order_item = select_item(store-1)  # add back option
-    if order_item == -1:
-        return False
-    print(f'Thank you for selecting ' +
-          f'{FRONTEND.getItemName(store-1, order_item-1)}.' +
-          f' Please enter how much you would like to order or ' +
-          f'type quit to go back')
-    return flow_quant(store, order_item-1)
+    while True:
+        print(f'Thank you for selecting {FRONTEND.getStoreName(store-1)}.' +
+              f' Please select an item to order or type quit to go back')
+        order_item = select_item(store-1)  # add back option
+        if order_item == -1:
+            return False
+        res = flow_quant(store, order_item-1)
+        if not res:
+            continue
+        return True
 
 
 def main():
     print('Welcome to the Just Hungry store. Here you can order various' +
           ' foodstuffs to any location you want.')
-    print('Please select one of the stores, or type quit to exit')
-    store = select_store()
-    if store == -1:
-        sys.exit('Thank you for doing business with us today')
-    print(f'Thank you for selecting {FRONTEND.getStoreName(store-1)}.' +
-          f' Please select an item to order or type quit to go back')
+    while True:
+        print('Please select one of the stores, or type quit to exit')
+        store = select_store()
+        if store == -1:
+            print('Thank you for doing business with us today')
+            break
+        while True:
+            res = flow_order_item(store-1)
+            if not res:
+                break
+            sys.exit()
     # Loopify
 
 
-main()
+try:
+    main()
+except Pyro4.errors.PyroError:
+    sys.exit('Cannot connect to the frontend server. Exiting client')
