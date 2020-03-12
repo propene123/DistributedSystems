@@ -5,7 +5,7 @@ import Pyro4
 @Pyro4.expose
 class GreetingMaker(object):
     def get_fortune(self):
-        print('lol')
+        return 'lol'
 
 
 daemon = Pyro4.Daemon()                # make a Pyro daemon
