@@ -6,7 +6,6 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	/381d6ba/
-FRONTEND	src/client.py	/^FRONTEND = Pyro4.Proxy('PYRONAME:justHungry.frontend')$/;"	v
 Frontend	src/frontend.py	/^class Frontend():$/;"	c
 GreetingMaker	example/nserver.py	/^class GreetingMaker(object):$/;"	c
 PRIMARY	src/frontend.py	/^PRIMARY = None$/;"	v
@@ -22,7 +21,6 @@ flow_postcode	src/client.py	/^def flow_postcode(store, order_item, quant):$/;"	f
 flow_quant	src/client.py	/^def flow_quant(store, order_item):$/;"	f
 frontend	src/frontend.py	/^    frontend = Frontend()$/;"	v
 frontend_uri	src/frontend.py	/^    frontend_uri = daemon.register(frontend)$/;"	v
-func	src/hmm.py	/^def func():$/;"	f
 getAddress	src/frontend.py	/^    def getAddress(self, postcode):$/;"	m	class:Frontend
 getItem	src/frontend.py	/^    def getItem(self, store, order_item):$/;"	m	class:Frontend
 getItemName	src/frontend.py	/^    def getItemName(self, store, order_item):$/;"	m	class:Frontend

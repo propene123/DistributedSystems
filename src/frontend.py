@@ -133,14 +133,14 @@ class Frontend():
         try:
             resp = urllib.request.urlopen('https://api.postcodes.io/' +
                                           'postcodes/' + postcode)
-            if resp.getCode() != 200:
+            if resp.getcode() != 200:
                 return ''
             try:
                 data = json.load(resp)
-                if data['admin_district']:
-                    result += (data['admin_district'] + '\n')
-                if data['admin_ward']:
-                    result += (data['admin_ward'] + '\n')
+                if data['result']['admin_district']:
+                    result += (data['result']['admin_district'] + '\n')
+                if data['result']['admin_ward']:
+                    result += (data['result']['admin_ward'] + '\n')
                 result += postcode
             except json.JSONDecodeError:
                 return postcode
