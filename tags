@@ -13,15 +13,21 @@ __init__	src/frontend.py	/^    def __init__(self):$/;"	m	class:frontend
 check_primary	src/frontend.py	/^    def check_primary(self):$/;"	m	class:frontend
 confirm_order	src/client.py	/^def confirm_order(store, order_item, quant, address):$/;"	f
 daemon	example/nserver.py	/^daemon = Pyro4.Daemon()                # make a Pyro daemon$/;"	v
+finaliseOrder	src/frontend.py	/^    def finaliseOrder(self, store, order_item, quant, address):$/;"	m	class:frontend
 finalise_order	src/client.py	/^def finalise_order(store, order_item, quant, address):$/;"	f
 find_primary	src/frontend.py	/^    def find_primary(self):$/;"	m	class:frontend
 frontend	src/frontend.py	/^class frontend(object):$/;"	c
+getItem	src/frontend.py	/^    def getItem(self, store, order_item):$/;"	m	class:frontend
+getItemName	src/frontend.py	/^    def getItemName(self, store, order_item):$/;"	m	class:frontend
+getItems	src/frontend.py	/^    def getItems(self, store):$/;"	m	class:frontend
+getStoreName	src/frontend.py	/^    def getStoreName(self, store):$/;"	m	class:frontend
 getStores	src/frontend.py	/^    def getStores(self):$/;"	m	class:frontend
 get_fortune	example/nserver.py	/^    def get_fortune(self):$/;"	m	class:GreetingMaker
 hmm	example/nclient.py	/^hmm = Pyro4.Proxy("PYRONAME:example.greeting")    # use name server object lookup uri shortcut$/;"	v
 main	src/client.py	/^def main():$/;"	f
 name	example/nclient.py	/^name = input("What is your name? ").strip()$/;"	v
 ns	example/nserver.py	/^ns = Pyro4.locateNS()                  # find the name server$/;"	v
+placeOrder	src/frontend.py	/^    def placeOrder(self, store, order_item, quant):$/;"	m	class:frontend
 place_order	src/client.py	/^def place_order(store, order_item, quant):$/;"	f
 remove_primary	src/frontend.py	/^    def remove_primary(self):$/;"	m	class:frontend
 select_item	src/client.py	/^def select_item(store):$/;"	f

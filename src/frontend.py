@@ -51,3 +51,77 @@ class frontend(object):
             self.remove_primary()
             return []
         return self._primary.getStores()
+
+    @Pyro4.expose
+    def getItems(self, store):
+        if self._primary is None:
+            success = self.find_primary()
+            if not success:
+                return []
+        success = self.check_primary()
+        if not success:
+            self.remove_primary()
+            return []
+        return self._primary.getItems(store)
+
+    @Pyro4.expose
+    def getItem(self, store, order_item):
+        if self._primary is None:
+            success = self.find_primary()
+            if not success:
+                return []
+        success = self.check_primary()
+        if not success:
+            self.remove_primary()
+            return []
+        return self._primary.getItems(store, order_item)
+
+    @Pyro4.expose
+    def placeOrder(self, store, order_item, quant):
+        if self._primary is None:
+            success = self.find_primary()
+            if not success:
+                return False
+        success = self.check_primary()
+        if not success:
+            self.remove_primary()
+            return False
+        return self._primary.placeOrder(store, order_item, quant)
+
+    @Pyro4.expose
+    def finaliseOrder(self, store, order_item, quant, address):
+        if self._primary is None:
+            success = self.find_primary()
+            if not success:
+                return False
+        success = self.check_primary()
+        if not success:
+            self.remove_primary()
+            return False
+        return self._primary.finaliseOrder(store, order_item, quant, address)
+
+    @Pyro4.expose
+    def getStoreName(self, store):
+        if self._primary is None:
+            success = self.find_primary()
+            if not success:
+                return ''
+        success = self.check_primary()
+        if not success:
+            self.remove_primary()
+            return ''
+        return self._primary.getStoreName(store)
+
+    @Pyro4.expose
+    def getItemName(self, store, order_item):
+        if self._primary is None:
+            success = self.find_primary()
+            if not success:
+                return ''
+        success = self.check_primary()
+        if not success:
+            self.remove_primary()
+            return ''
+        return self._primary.getItemName(store, order_item)
+
+
