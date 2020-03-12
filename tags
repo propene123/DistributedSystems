@@ -6,14 +6,20 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	/381d6ba/
+FRONTEND	src/client.py	/^FRONTEND = Pyro4.Proxy('PYRONAME:justHungry.frontend')$/;"	v
 GreetingMaker	example/nserver.py	/^class GreetingMaker(object):$/;"	c
+confirm_order	src/client.py	/^def confirm_order(store, order_item, quant, address):$/;"	f
 daemon	example/nserver.py	/^daemon = Pyro4.Daemon()                # make a Pyro daemon$/;"	v
-frontend	src/client.py	/^frontend = Pyro4.Proxy('PYRONAME:justHungry.frontend')$/;"	v
-get_fortune	example/nserver.py	/^    def get_fortune(self, name):$/;"	m	class:GreetingMaker
-greeting_maker	example/nclient.py	/^greeting_maker = Pyro4.Proxy("PYRONAME:example.greeting")    # use name server object lookup uri/;"	v
+finalise_order	src/client.py	/^def finalise_order(store, order_item, quant, address):$/;"	f
+get_fortune	example/nserver.py	/^    def get_fortune(self):$/;"	m	class:GreetingMaker
 main	src/client.py	/^def main():$/;"	f
 name	example/nclient.py	/^name = input("What is your name? ").strip()$/;"	v
 ns	example/nserver.py	/^ns = Pyro4.locateNS()                  # find the name server$/;"	v
+place_order	src/client.py	/^def place_order(store, order_item, quant):$/;"	f
 select_item	src/client.py	/^def select_item(store):$/;"	f
+select_quantity	src/client.py	/^def select_quantity(store, order_item):$/;"	f
 select_store	src/client.py	/^def select_store():$/;"	f
+submit_postcode	src/client.py	/^def submit_postcode():$/;"	f
 uri	example/nserver.py	/^uri = daemon.register(GreetingMaker)   # register the greeting maker as a Pyro object$/;"	v
+verify_address	src/client.py	/^def verify_address(address):$/;"	f
+x	src/hmmm.py	/^x = 3$/;"	v

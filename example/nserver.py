@@ -4,9 +4,9 @@ import Pyro4
 
 @Pyro4.expose
 class GreetingMaker(object):
-    def get_fortune(self, name):
-        return "Hello, {0}. Here is your fortune message:\n" \
-               "Today's lucky number is 9090.".format(name)
+    def get_fortune(self):
+        print('lol')
+
 
 daemon = Pyro4.Daemon()                # make a Pyro daemon
 ns = Pyro4.locateNS()                  # find the name server
