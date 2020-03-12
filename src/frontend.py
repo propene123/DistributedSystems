@@ -1,3 +1,6 @@
+import urllib.request
+import urllib.error
+import json
 import Pyro4
 import Pyro4.errors
 
@@ -5,7 +8,7 @@ import Pyro4.errors
 PRIMARY = None
 
 
-class frontend(object):
+class Frontend():
     def __init__(self):
         self._primary = None
 
@@ -123,5 +126,34 @@ class frontend(object):
             self.remove_primary()
             return ''
         return self._primary.getItemName(store, order_item)
+
+    @Pyro4.expose
+    def getAddress(self, postcode):
+        result = ''
+        try:
+            resp = urllib.request.urlopen('https://api.postcodes.io/' +
+                                          'postcodes/' + postcode)
+            if resp.getCode() != 200:
+                return ''
+            try:
+                data = json.load(resp)
+                if data['admin_district']:
+                    result += (data['admin_district'] + '\n')
+                if data['admin_ward']:
+                    result += (data['admin_ward'] + '\n')
+                result += postcode
+            except json.JSONDecodeError:
+                return postcode
+            return result
+        except urllib.error.URLError:
+            return postcode
+
+
+with Pyro4.Daemon() as daemon:
+    frontend = Frontend()
+    frontend_uri = daemon.register(frontend)
+    with Pyro4.locateNS() as ns:
+        ns.register('justHungry.frontend', frontend_uri)
+    daemon.requestLoop()
 
 
