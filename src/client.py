@@ -62,6 +62,9 @@ def select_quantity(store, order_item):
         print('Cannot get item from server')
         return -1
     current_stock = item[2]
+    if current_stock == 0:
+        print('That item is currently unavailable')
+        return -1
     while True:
         resp = input()
         try:
