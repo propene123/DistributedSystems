@@ -9,8 +9,11 @@
 Backend	src/backend.py	/^class Backend():$/;"	c
 Frontend	src/frontend.py	/^class Frontend():$/;"	c
 GreetingMaker	example/nserver.py	/^class GreetingMaker(object):$/;"	c
+NAME	src/backend.py	/^NAME = ''$/;"	v
+NAME	src/backend.py	/^NAME = sys.argv[1]$/;"	v
 __init__	src/backend.py	/^    def __init__(self):$/;"	m	class:Backend
 __init__	src/frontend.py	/^    def __init__(self):$/;"	m	class:Frontend
+backend_uri	src/backend.py	/^        backend_uri = daemon.register(Backend)$/;"	v
 clientId	src/backend.py	/^    def clientId(self):$/;"	m	class:Backend
 confirm_order	src/client.py	/^def confirm_order(store, order_item, quant, address):$/;"	f
 daemon	example/nserver.py	/^daemon = Pyro4.Daemon()                # make a Pyro daemon$/;"	v
@@ -36,14 +39,16 @@ getStores	src/frontend.py	/^    def getStores(self):$/;"	m	class:Frontend
 get_fortune	example/nserver.py	/^    def get_fortune(self):$/;"	m	class:GreetingMaker
 hmm	example/nclient.py	/^hmm = Pyro4.Proxy("PYRONAME:example.greeting")    # use name server object lookup uri shortcut$/;"	v
 house_number	src/client.py	/^def house_number():$/;"	f
+kek	src/hmm.py	/^kek = 'afjjfn'$/;"	v
 main	src/client.py	/^def main():$/;"	f
 name	example/nclient.py	/^name = input("What is your name? ").strip()$/;"	v
+notifyPrimary	src/backend.py	/^    def notifyPrimary(self):$/;"	m	class:Backend
 ns	example/nserver.py	/^ns = Pyro4.locateNS()                  # find the name server$/;"	v
 order	src/client.py	/^def order():$/;"	f
 placeOrder	src/backend.py	/^    def placeOrder(self, store, order_item, quant, address, u_id):$/;"	m	class:Backend
 placeOrder	src/frontend.py	/^    def placeOrder(self, store, order_item, quant):$/;"	m	class:Frontend
 place_order	src/client.py	/^def place_order(store, order_item, quant):$/;"	f
-propogate	src/backend.py	/^    def propogate(self, u_id, resp):$/;"	m	class:Backend
+propogate	src/backend.py	/^    def propogate(self, u_id, resp, new_db):$/;"	m	class:Backend
 remove_primary	src/frontend.py	/^    def remove_primary(self):$/;"	m	class:Frontend
 select_item	src/client.py	/^def select_item(store):$/;"	f
 select_quantity	src/client.py	/^def select_quantity(store, order_item):$/;"	f
