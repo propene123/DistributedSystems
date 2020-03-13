@@ -31,17 +31,34 @@ class Backend():
     def find_backups(self):
         try:
             with Pyro4.locateNS() as ns:
-                for backup, backup_uri in ns.list(prefix='justHungry.backend.'):
-                    if backup != self._name:
-                        self._backups.append([backup, Pyro4.Proxy(backup_uri)])
+                for backup, backup_uri in ns.list(prefix='justHungry.backend.').items():
+                    if backup != f'justHungry.backend.{self._name}':
+                        backup_proxy = Pyro4.Proxy(backup_uri)
+                        if [backup, backup_proxy] in self._backups:
+                            continue
+                        try:
+                            res = backup_proxy.initBackup(self._db)
+                            if not res:
+                                try:
+                                    with Pyro4.locateNS() as ns:
+                                        ns.remove(name=backup)
+                                except Pyro4.errors.NamingError:
+                                    pass
+                            else:
+                                self._backups.append([backup, backup_proxy])
+                        except Pyro4.errors.PyroError:
+                            try:
+                                with Pyro4.locateNS() as ns:
+                                    ns.remove(name=backup)
+                            except Pyro4.errors.NamingError:
+                                pass
         except Pyro4.errors.NamingError:
             pass
 
     @Pyro4.expose
-    def initBackup(self, backup):
-        
-
-
+    def initBackup(self, db):
+        self._db = db[::]
+        return True
 
     @Pyro4.expose
     def propogate(self, u_id, resp, new_db):
@@ -51,6 +68,7 @@ class Backend():
 
     @Pyro4.expose
     def getItem(self, store, order_item, u_id):
+        self.find_backups()
         if u_id in self._responses:
             item = self._responses[u_id]
         else:
@@ -63,6 +81,7 @@ class Backend():
 
     @Pyro4.expose
     def getItemName(self, store, order_item, u_id):
+        self.find_backups()
         if u_id in self._responses:
             item_name = self._responses[u_id]
         else:
@@ -75,6 +94,7 @@ class Backend():
 
     @Pyro4.expose
     def getItems(self, store, u_id):
+        self.find_backups()
         if u_id in self._responses:
             items = self._responses[u_id]
         else:
@@ -87,6 +107,7 @@ class Backend():
 
     @Pyro4.expose
     def getStoreName(self, store, u_id):
+        self.find_backups()
         if u_id in self._responses:
             store_name = self._responses[u_id]
         else:
@@ -99,6 +120,7 @@ class Backend():
 
     @Pyro4.expose
     def getStores(self, u_id):
+        self.find_backups()
         if u_id in self._responses:
             stores = self._responses[u_id]
         else:
@@ -110,6 +132,7 @@ class Backend():
 
     @Pyro4.expose
     def placeOrder(self, store, order_item, quant, u_id):
+        self.find_backups()
         if u_id in self._responses:
             valid = self._responses[u_id]
         else:
@@ -119,6 +142,7 @@ class Backend():
 
     @Pyro4.expose
     def finaliseOrder(self, store, order_item, quant, address, u_id):
+        self.find_backups()
         if u_id in self._responses:
             resp = self._responses[u_id]
         else:

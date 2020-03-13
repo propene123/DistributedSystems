@@ -40,8 +40,7 @@ getStores	src/frontend.py	/^    def getStores(self):$/;"	m	class:Frontend
 get_fortune	example/nserver.py	/^    def get_fortune(self):$/;"	m	class:GreetingMaker
 hmm	example/nclient.py	/^hmm = Pyro4.Proxy("PYRONAME:example.greeting")    # use name server object lookup uri shortcut$/;"	v
 house_number	src/client.py	/^def house_number():$/;"	f
-initBackup	src/backend.py	/^    def initBackup(self, backup):$/;"	m	class:Backend
-kek	src/hmmm.py	/^kek = ''$/;"	v
+initBackup	src/backend.py	/^    def initBackup(self, db):$/;"	m	class:Backend
 main	src/client.py	/^def main():$/;"	f
 name	example/nclient.py	/^name = input("What is your name? ").strip()$/;"	v
 notifyPrimary	src/backend.py	/^    def notifyPrimary(self):$/;"	m	class:Backend
