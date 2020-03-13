@@ -25,6 +25,7 @@ find_primary	src/frontend.py	/^    def find_primary(self):$/;"	m	class:Frontend
 flow_order_item	src/client.py	/^def flow_order_item(store):$/;"	f
 flow_postcode	src/client.py	/^def flow_postcode(store, order_item, quant):$/;"	f
 flow_quant	src/client.py	/^def flow_quant(store, order_item):$/;"	f
+flow_store	src/client.py	/^def flow_store(store):$/;"	f
 frontend_uri	src/frontend.py	/^        frontend_uri = daemon.register(Frontend)$/;"	v
 getAddress	src/frontend.py	/^    def getAddress(self, postcode):$/;"	m	class:Frontend
 getItem	src/backend.py	/^    def getItem(self, store, order_item, u_id):$/;"	m	class:Backend

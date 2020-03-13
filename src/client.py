@@ -184,15 +184,25 @@ def flow_order_item(store):
         return True
 
 
+def flow_store(store):
+    while True:
+        res = flow_order_item(store)
+        if not res:
+            return False
+        return True
+
+
+
 def order():
     while True:
         store = select_store()
         if store == -1:
             break
-        while True:
-            res = flow_order_item(store-1)
-            if not res:
-                break
+        res = flow_store(store-1)
+        if not res:
+            continue
+        break
+
 
 
 def view():
