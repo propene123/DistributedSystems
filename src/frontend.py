@@ -4,10 +4,17 @@ import json
 import sys
 import Pyro4
 import Pyro4.errors
+import Pyro4.configuration
 
 
+# ensure requests are dealt with sequentially (message ordering)
+Pyro4.config.SERVERTYPE = 'multiplex'
+
+
+@Pyro4.behavior(instance_mode='single')
 class Frontend():
     def __init__(self):
+        self._u_id = 0
         self._primary = None
 
     def find_primary(self):
@@ -54,7 +61,8 @@ class Frontend():
             if not success:
                 return ['ERROR']
         try:
-            return self._primary.getStores()
+            self._u_id += 1
+            return self._primary[1].getStores(self._u_id-1)
         except Pyro4.errors.PyroError:
             if not self.find_primary():
                 return ['ERROR']
@@ -67,7 +75,8 @@ class Frontend():
             if not success:
                 return ['ERROR']
         try:
-            return self._primary.getItems(store)
+            self._u_id += 1
+            return self._primary[1].getItems(store, self._u_id-1)
         except Pyro4.errors.PyroError:
             if not self.find_primary():
                 return ['ERROR']
@@ -80,7 +89,8 @@ class Frontend():
             if not success:
                 return []
         try:
-            return self._primary.getItems(store, order_item)
+            self._u_id += 1
+            return self._primary[1].getItem(store, order_item, self._u_id-1)
         except Pyro4.errors.PyroError:
             if not self.find_primary():
                 return []
@@ -93,20 +103,22 @@ class Frontend():
             if not success:
                 return False
         try:
-            return self._primary.placeOrder(store, order_item, quant)
+            self._u_id += 1
+            return self._primary[1].placeOrder(store, order_item, quant, self._u_id-1)
         except Pyro4.errors.PyroError:
             if not self.find_primary():
                 return False
             return self.placeOrder(store, order_item, quant)
 
     @Pyro4.expose
-    def finaliseOrder(self, store, order_item, quant, address, u_id):
+    def finaliseOrder(self, store, order_item, quant, address):
         if self._primary is None:
             success = self.find_primary()
             if not success:
                 return False
         try:
-            return self._primary.finaliseOrder(store, order_item, quant, address, u_id)
+            self._u_id += 1
+            return self._primary[1].finaliseOrder(store, order_item, quant, address, self._u_id-1)
         except Pyro4.errors.PyroError:
             if not self.find_primary():
                 return False
@@ -119,7 +131,8 @@ class Frontend():
             if not success:
                 return ''
         try:
-            return self._primary.getStoreName(store)
+            self._u_id += 1
+            return self._primary[1].getStoreName(store, self._u_id-1)
         except Pyro4.errors.PyroError:
             if not self.find_primary():
                 return ''
@@ -132,7 +145,8 @@ class Frontend():
             if not success:
                 return ''
         try:
-            return self._primary.getItemName(store, order_item)
+            self._u_id += 1
+            return self._primary[1].getItemName(store, order_item, self._u_id-1)
         except Pyro4.errors.PyroError:
             if not self.find_primary():
                 return ''
@@ -142,20 +156,21 @@ class Frontend():
     def getAddress(self, postcode):
         result = ''
         try:
-            resp = urllib.request.urlopen('https://api.postcodes.io/' +
-                                          'postcodes/' + postcode)
-            if resp.getcode() != 200:
-                return ''
             try:
-                data = json.load(resp)
-                if data['result']['admin_district']:
-                    result += (data['result']['admin_district'] + '\n')
-                if data['result']['admin_ward']:
-                    result += (data['result']['admin_ward'] + '\n')
-                result += postcode
-            except json.JSONDecodeError:
-                return postcode
-            return result
+                resp = urllib.request.urlopen('https://api.postcodes.io/' +
+                                              'postcodes/' + postcode)
+                try:
+                    data = json.load(resp)
+                    if data['result']['admin_district']:
+                        result += (data['result']['admin_district'] + '\n')
+                    if data['result']['admin_ward']:
+                        result += (data['result']['admin_ward'] + '\n')
+                    result += postcode
+                except json.JSONDecodeError:
+                    return postcode
+                return result
+            except urllib.error.HTTPError:
+                return ''
         except urllib.error.URLError:
             return postcode
 

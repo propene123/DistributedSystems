@@ -12,15 +12,15 @@ except Pyro4.errors.PyroError:
 def select_store():
     stores = FRONTEND.getStores()
     print('Please select one of the stores, or type quit to go back')
-    if stores[0] == 'ERROR':
+    if stores == ['ERROR']:
         print('Cannot get stores from server')
         return -1
-    for count, store in enumerate(stores[1], 1):
+    for count, store in enumerate(stores, 1):
         print(count, store, sep='. ')
     while True:
         resp = input()
         try:
-            if int(resp) < len(stores):
+            if 0 < int(resp) <= len(stores):
                 return int(resp)
         except ValueError:
             pass
@@ -33,15 +33,15 @@ def select_item(store):
     items = FRONTEND.getItems(store)
     print(f'Thank you for selecting {FRONTEND.getStoreName(store-1)}.' +
           f' Please select an item to order or type quit to go back')
-    if items[0] == 'ERROR':
+    if items == ['ERROR']:
         print('Cannot get items from server')
         return -1
-    for count, item in enumerate(items[1], 1):
+    for count, item in enumerate(items, 1):
         print(f'{count}. {item[0]}\t£{item[1]}\tstock:{item[2]}')
     while True:
         resp = input()
         try:
-            if int(resp) < len(items):
+            if 0 < int(resp) <= len(items):
                 return int(resp)
         except ValueError:
             pass
@@ -53,7 +53,7 @@ def select_item(store):
 def select_quantity(store, order_item):
     item = FRONTEND.getItem(store, order_item)
     print(f'Thank you for selecting ' +
-          f'{FRONTEND.getItemName(store-1, order_item-1)}.' +
+          f'{FRONTEND.getItemName(store, order_item)}.' +
           f' Please enter how much you would like to order or ' +
           f'type quit to go back')
     if not item:
@@ -124,7 +124,7 @@ def confirm_order(store, order_item, quant, address):
 
 
 def finalise_order(store, order_item, quant, address):
-    return FRONTEND.finalise_order(store, order_item, quant, address)
+    return FRONTEND.finaliseOrder(store, order_item, quant, address)
 
 
 def flow_postcode(store, order_item, quant):
@@ -137,7 +137,7 @@ def flow_postcode(store, order_item, quant):
         number = house_number()
         print(f'Please enter street name for location:\n{address}')
         street = street_name()
-        address = number + '\n' + street + '\n' + address
+        address = f'{number} {street}\n{address}'
         correct_address = verify_address(address)  # add incorrect option
         if not correct_address:
             continue
@@ -175,7 +175,7 @@ def flow_quant(store, order_item):
 
 def flow_order_item(store):
     while True:
-        order_item = select_item(store-1)  # add back option
+        order_item = select_item(store)  # add back option
         if order_item == -1:
             return False
         res = flow_quant(store, order_item-1)
@@ -193,6 +193,7 @@ def order():
             res = flow_order_item(store-1)
             if not res:
                 break
+
 
 def view():
     pass

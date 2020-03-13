@@ -38,6 +38,12 @@ class Backend():
             pass
 
     @Pyro4.expose
+    def initBackup(self, backup):
+        
+
+
+
+    @Pyro4.expose
     def propogate(self, u_id, resp, new_db):
         self._responses[u_id] = resp
         self._db = new_db[::]
@@ -48,25 +54,11 @@ class Backend():
         if u_id in self._responses:
             item = self._responses[u_id]
         else:
-            item = self._db[store][1][order_item]
+            try:
+                item = self._db[store][1][order_item]
+            except:
+                item = []
             self._responses[u_id] = item
-            for backup in self._backups[:]:
-                try:
-                    res = backup[1].propogate(u_id, item)
-                    if not res:
-                        try:
-                            with Pyro4.locateNS() as ns:
-                                ns.remove(name=backup[0])
-                                self._backups.remove(backup)
-                        except Pyro4.errors.NamingError:
-                            return []
-                except Pyro4.errors.PyroError:
-                    try:
-                        with Pyro4.locateNS() as ns:
-                            ns.remove(name=backup[0])
-                            self._backups.remove(backup)
-                    except Pyro4.errors.NamingError:
-                        return []
         return item
 
     @Pyro4.expose
@@ -74,25 +66,11 @@ class Backend():
         if u_id in self._responses:
             item_name = self._responses[u_id]
         else:
-            item_name = self._db[store][1][order_item][0]
+            try:
+                item_name = self._db[store][1][order_item][0]
+            except:
+                item_name = ''
             self._responses[u_id] = item_name
-            for backup in self._backups[:]:
-                try:
-                    res = backup[1].propogate(u_id, item_name)
-                    if not res:
-                        try:
-                            with Pyro4.locateNS() as ns:
-                                ns.remove(name=backup[0])
-                                self._backups.remove(backup)
-                        except Pyro4.errors.NamingError:
-                            return ''
-                except Pyro4.errors.PyroError:
-                    try:
-                        with Pyro4.locateNS() as ns:
-                            ns.remove(name=backup[0])
-                            self._backups.remove(backup)
-                    except Pyro4.errors.NamingError:
-                        return ''
         return item_name
 
     @Pyro4.expose
@@ -100,25 +78,11 @@ class Backend():
         if u_id in self._responses:
             items = self._responses[u_id]
         else:
-            items = self._db[store][1]
+            try:
+                items = self._db[store][1]
+            except:
+                items = ['ERROR']
             self._responses[u_id] = items
-            for backup in self._backups[:]:
-                try:
-                    res = backup[1].propogate(u_id, items)
-                    if not res:
-                        try:
-                            with Pyro4.locateNS() as ns:
-                                ns.remove(name=backup[0])
-                                self._backups.remove(backup)
-                        except Pyro4.errors.NamingError:
-                            return []
-                except Pyro4.errors.PyroError:
-                    try:
-                        with Pyro4.locateNS() as ns:
-                            ns.remove(name=backup[0])
-                            self._backups.remove(backup)
-                    except Pyro4.errors.NamingError:
-                        return []
         return items
 
     @Pyro4.expose
@@ -126,61 +90,41 @@ class Backend():
         if u_id in self._responses:
             store_name = self._responses[u_id]
         else:
-            store_name = self._db[store][0]
+            try:
+                store_name = self._db[store][0]
+            except:
+                store_name = ''
             self._responses[u_id] = store_name
-            for backup in self._backups[:]:
-                try:
-                    res = backup[1].propogate(u_id, store_name)
-                    if not res:
-                        try:
-                            with Pyro4.locateNS() as ns:
-                                ns.remove(name=backup[0])
-                                self._backups.remove(backup)
-                        except Pyro4.errors.NamingError:
-                            return ''
-                except Pyro4.errors.PyroError:
-                    try:
-                        with Pyro4.locateNS() as ns:
-                            ns.remove(name=backup[0])
-                            self._backups.remove(backup)
-                    except Pyro4.errors.NamingError:
-                        return ''
         return store_name
 
     @Pyro4.expose
-    def placeOrder(self, store, order_item, quant, address, u_id):
+    def getStores(self, u_id):
+        if u_id in self._responses:
+            stores = self._responses[u_id]
+        else:
+            stores = []
+            for store in self._db:
+                stores.append(store[0])
+            self._responses[u_id] = stores
+        return stores
+
+    @Pyro4.expose
+    def placeOrder(self, store, order_item, quant, u_id):
         if u_id in self._responses:
             valid = self._responses[u_id]
         else:
             valid = (0 < quant <= self._db[store][1][order_item][2])
             self._responses[u_id] = valid
-            for backup in self._backups[:]:
-                try:
-                    res = backup[1].propogate(u_id, valid)
-                    if not res:
-                        try:
-                            with Pyro4.locateNS() as ns:
-                                ns.remove(name=backup[0])
-                                self._backups.remove(backup)
-                        except Pyro4.errors.NamingError:
-                            return False
-                except Pyro4.errors.PyroError:
-                    try:
-                        with Pyro4.locateNS() as ns:
-                            ns.remove(name=backup[0])
-                            self._backups.remove(backup)
-                    except Pyro4.errors.NamingError:
-                        return False
         return valid
 
     @Pyro4.expose
-    def finaliseOrder(self, store, order_item, quant, address, client_id, u_id):
+    def finaliseOrder(self, store, order_item, quant, address, u_id):
         if u_id in self._responses:
             resp = self._responses[u_id]
         else:
             resp = (0 < quant <= self._db[store][1][order_item][2])
             self._responses[u_id] = resp
-            self._db[store][1][order_item][2] - quant
+            self._db[store][1][order_item][2] -= quant
             for backup in self._backups[:]:
                 try:
                     res = backup[1].propogate(u_id, resp, self._db)
@@ -190,6 +134,8 @@ class Backend():
                                 ns.remove(name=backup[0])
                                 self._backups.remove(backup)
                         except Pyro4.errors.NamingError:
+                            self._db[store][1][order_item][2] += quant
+                            self._responses[u_id] = False
                             return False
                 except Pyro4.errors.PyroError:
                     try:
@@ -197,6 +143,8 @@ class Backend():
                             ns.remove(name=backup[0])
                             self._backups.remove(backup)
                     except Pyro4.errors.NamingError:
+                        self._db[store][1][order_item][2] + quant
+                        self._responses[u_id] = False
                         return False
         return resp
 
@@ -218,7 +166,7 @@ try:
         backend_uri = daemon.register(Backend)
         try:
             with Pyro4.locateNS() as ns:
-                ns.register('justHungry.frontend', backend_uri)
+                ns.register('justHungry.backend.'+NAME, backend_uri)
         except Pyro4.errors.NamingError:
             sys.exit('Could not find nameserver. EXITING')
         daemon.requestLoop()

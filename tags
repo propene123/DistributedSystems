@@ -17,8 +17,8 @@ backend_uri	src/backend.py	/^        backend_uri = daemon.register(Backend)$/;"	
 clientId	src/backend.py	/^    def clientId(self):$/;"	m	class:Backend
 confirm_order	src/client.py	/^def confirm_order(store, order_item, quant, address):$/;"	f
 daemon	example/nserver.py	/^daemon = Pyro4.Daemon()                # make a Pyro daemon$/;"	v
-finaliseOrder	src/backend.py	/^    def finaliseOrder(self, store, order_item, quant, address, client_id, u_id):$/;"	m	class:Backend
-finaliseOrder	src/frontend.py	/^    def finaliseOrder(self, store, order_item, quant, address, u_id):$/;"	m	class:Frontend
+finaliseOrder	src/backend.py	/^    def finaliseOrder(self, store, order_item, quant, address, u_id):$/;"	m	class:Backend
+finaliseOrder	src/frontend.py	/^    def finaliseOrder(self, store, order_item, quant, address):$/;"	m	class:Frontend
 finalise_order	src/client.py	/^def finalise_order(store, order_item, quant, address):$/;"	f
 find_backups	src/backend.py	/^    def find_backups(self):$/;"	m	class:Backend
 find_primary	src/frontend.py	/^    def find_primary(self):$/;"	m	class:Frontend
@@ -35,17 +35,19 @@ getItems	src/backend.py	/^    def getItems(self, store, u_id):$/;"	m	class:Backe
 getItems	src/frontend.py	/^    def getItems(self, store):$/;"	m	class:Frontend
 getStoreName	src/backend.py	/^    def getStoreName(self, store, u_id):$/;"	m	class:Backend
 getStoreName	src/frontend.py	/^    def getStoreName(self, store):$/;"	m	class:Frontend
+getStores	src/backend.py	/^    def getStores(self, u_id):$/;"	m	class:Backend
 getStores	src/frontend.py	/^    def getStores(self):$/;"	m	class:Frontend
 get_fortune	example/nserver.py	/^    def get_fortune(self):$/;"	m	class:GreetingMaker
 hmm	example/nclient.py	/^hmm = Pyro4.Proxy("PYRONAME:example.greeting")    # use name server object lookup uri shortcut$/;"	v
 house_number	src/client.py	/^def house_number():$/;"	f
-kek	src/hmm.py	/^kek = 'afjjfn'$/;"	v
+initBackup	src/backend.py	/^    def initBackup(self, backup):$/;"	m	class:Backend
+kek	src/hmmm.py	/^kek = ''$/;"	v
 main	src/client.py	/^def main():$/;"	f
 name	example/nclient.py	/^name = input("What is your name? ").strip()$/;"	v
 notifyPrimary	src/backend.py	/^    def notifyPrimary(self):$/;"	m	class:Backend
 ns	example/nserver.py	/^ns = Pyro4.locateNS()                  # find the name server$/;"	v
 order	src/client.py	/^def order():$/;"	f
-placeOrder	src/backend.py	/^    def placeOrder(self, store, order_item, quant, address, u_id):$/;"	m	class:Backend
+placeOrder	src/backend.py	/^    def placeOrder(self, store, order_item, quant, u_id):$/;"	m	class:Backend
 placeOrder	src/frontend.py	/^    def placeOrder(self, store, order_item, quant):$/;"	m	class:Frontend
 place_order	src/client.py	/^def place_order(store, order_item, quant):$/;"	f
 propogate	src/backend.py	/^    def propogate(self, u_id, resp, new_db):$/;"	m	class:Backend
