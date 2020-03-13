@@ -3,6 +3,8 @@ import Pyro4
 import Pyro4.errors
 
 
+CLIENT_ID = 0
+
 try:
     FRONTEND = Pyro4.Proxy('PYRONAME:justHungry.frontend')
 except Pyro4.errors.PyroError:
@@ -124,7 +126,7 @@ def confirm_order(store, order_item, quant, address):
 
 
 def finalise_order(store, order_item, quant, address):
-    return FRONTEND.finaliseOrder(store, order_item, quant, address)
+    return FRONTEND.finaliseOrder(store, order_item, quant, address, CLIENT_ID)
 
 
 def flow_postcode(store, order_item, quant):
@@ -192,7 +194,6 @@ def flow_store(store):
         return True
 
 
-
 def order():
     while True:
         store = select_store()
@@ -204,12 +205,26 @@ def order():
         break
 
 
-
 def view():
-    pass
+    orders = FRONTEND.getOrders(CLIENT_ID)
+    if orders == ['ERROR']:
+        print('There was an error retrieving your orders. Please try again')
+    print('Here are your orders:')
+    for data in orders:
+        print(f'Store: {data[0]}')
+        print(f'Item: {data[1]}')
+        print(f'Quantity: {data[2]}')
+        print(f'Total Cost: {data[3]}')
+        print('Address:')
+        print(data[4])
+        print('##############################################################################')
 
 
 def main():
+    global CLIENT_ID
+    CLIENT_ID = FRONTEND.getClientID()
+    if not CLIENT_ID:
+        sys.exit('Cannot connect to the Just Hungry store. Exiting client')
     print('Welcome to the Just Hungry store. Here you can order various' +
           ' foodstuffs to any location you want.')
     while True:
@@ -230,4 +245,4 @@ def main():
 try:
     main()
 except Pyro4.errors.PyroError:
-    sys.exit('Cannot connect to the frontend server. Exiting client')
+    sys.exit('Cannot connect to the Just Hungry Store. Exiting client')

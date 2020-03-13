@@ -30,13 +30,13 @@ class Frontend():
             return False
         for backend in backends:
             try:
+                self._primary = backend
                 success = backend[1].notifyPrimary()
                 if success:
-                    self._primary = backend
                     return True
                 try:
                     with Pyro4.locateNS() as ns:
-                        ns.remove(name=backend[0])
+                        self.remove_primary()
                 except Pyro4.errors.NamingError:
                     return False
             except Pyro4.errors.PyroError:
@@ -111,18 +111,18 @@ class Frontend():
             return self.placeOrder(store, order_item, quant)
 
     @Pyro4.expose
-    def finaliseOrder(self, store, order_item, quant, address):
+    def finaliseOrder(self, store, order_item, quant, address, client_id):
         if self._primary is None:
             success = self.find_primary()
             if not success:
                 return False
         try:
             self._u_id += 1
-            return self._primary[1].finaliseOrder(store, order_item, quant, address, self._u_id-1)
+            return self._primary[1].finaliseOrder(store, order_item, quant, address, client_id, self._u_id-1)
         except Pyro4.errors.PyroError:
             if not self.find_primary():
                 return False
-            return self.finaliseOrder(store, order_item, quant, address, u_id)
+            return self.finaliseOrder(store, order_item, quant, address, client_id)
 
     @Pyro4.expose
     def getStoreName(self, store):
@@ -139,6 +139,20 @@ class Frontend():
             return self.getStoreName(store)
 
     @Pyro4.expose
+    def getOrders(self, clientId):
+        if self._primary is None:
+            success = self.find_primary()
+            if not success:
+                return ['ERROR']
+        try:
+            self._u_id += 1
+            return self._primary[1].getOrders(clientId, self._u_id-1)
+        except Pyro4.errors.PyroError:
+            if not self.find_primary():
+                return ['ERROR']
+            return self.getOrders(clientId)
+
+    @Pyro4.expose
     def getItemName(self, store, order_item):
         if self._primary is None:
             success = self.find_primary()
@@ -151,6 +165,21 @@ class Frontend():
             if not self.find_primary():
                 return ''
             return self.getItemName(store, order_item)
+
+    @Pyro4.expose
+    def getClientID(self):
+        if self._primary is None:
+            success = self.find_primary()
+            if not success:
+                return None
+        try:
+            self._u_id += 1
+            client_id = self._primary[1].clientId(self._u_id-1)
+            return client_id
+        except Pyro4.errors.PyroError:
+            if not self.find_primary():
+                return None
+            return self.getClientID()
 
     @Pyro4.expose
     def getAddress(self, postcode):
