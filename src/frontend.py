@@ -100,17 +100,17 @@ class Frontend():
             return self.placeOrder(store, order_item, quant)
 
     @Pyro4.expose
-    def finaliseOrder(self, store, order_item, quant, address):
+    def finaliseOrder(self, store, order_item, quant, address, u_id):
         if self._primary is None:
             success = self.find_primary()
             if not success:
                 return False
         try:
-            return self._primary.finaliseOrder(store, order_item, quant, address)
+            return self._primary.finaliseOrder(store, order_item, quant, address, u_id)
         except Pyro4.errors.PyroError:
             if not self.find_primary():
                 return False
-            return self.finaliseOrder(store, order_item, quant, address)
+            return self.finaliseOrder(store, order_item, quant, address, u_id)
 
     @Pyro4.expose
     def getStoreName(self, store):
@@ -162,8 +162,7 @@ class Frontend():
 
 try:
     with Pyro4.Daemon() as daemon:
-        frontend = Frontend()
-        frontend_uri = daemon.register(frontend)
+        frontend_uri = daemon.register(Frontend)
         try:
             with Pyro4.locateNS() as ns:
                 ns.register('justHungry.frontend', frontend_uri)

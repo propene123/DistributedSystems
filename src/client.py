@@ -163,9 +163,9 @@ def flow_quant(store, order_item):
         if quant == -1:
             return False
         print('Your order will now be placed')
-        order = place_order(store, order_item, quant)
-        if not order:
-            print('There was a problem placing your order, you may try again')
+        success = place_order(store, order_item, quant)
+        if not success:
+            print('There was a problem with your order, you may try again')
             continue
         res = flow_postcode(store, order_item, quant)
         if not res:
