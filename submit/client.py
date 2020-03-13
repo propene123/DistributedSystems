@@ -5,6 +5,7 @@ import Pyro4.errors
 
 CLIENT_ID = 0
 
+# Try to connect to frontend
 try:
     FRONTEND = Pyro4.Proxy('PYRONAME:justHungry.frontend')
 except Pyro4.errors.PyroError:
@@ -12,6 +13,7 @@ except Pyro4.errors.PyroError:
 
 
 def select_store():
+    # Query frontend for available sotres
     stores = FRONTEND.getStores()
     print('Please select one of the stores, or type quit to go back')
     if stores == ['ERROR']:
@@ -32,6 +34,7 @@ def select_store():
 
 
 def select_item(store):
+    # Query frontend for items in a particular stall
     items = FRONTEND.getItems(store)
     print(f'Thank you for selecting {FRONTEND.getStoreName(store-1)}.' +
           f' Please select an item to order or type quit to go back')
@@ -53,6 +56,7 @@ def select_item(store):
 
 
 def select_quantity(store, order_item):
+    # Get sepcific info about an item
     item = FRONTEND.getItem(store, order_item)
     print(f'Thank you for selecting ' +
           f'{FRONTEND.getItemName(store, order_item)}.' +
@@ -78,16 +82,19 @@ def select_quantity(store, order_item):
 
 
 def place_order(store, order_item, quant):
+    # Ask server to validate a draft order
     return FRONTEND.placeOrder(store, order_item, quant)
 
 
 def submit_postcode():
+    # Get better location info from server about the given postcode
     print('Please enter a postcode for the intended delivery location')
     postcode = input()
     return FRONTEND.getAddress(postcode)
 
 
 def house_number():
+    # Query user for house_number
     while True:
         resp = input()
         try:
@@ -98,10 +105,12 @@ def house_number():
 
 
 def street_name():
+    # query user for street name
     return input()
 
 
 def verify_address(address):
+    # ask user if they entered the correct address
     print(f'You entered:\n{address}\n\nIs this the correct address y/n')
     while True:
         response = input()
@@ -113,8 +122,10 @@ def verify_address(address):
 
 
 def confirm_order(store, order_item, quant, address):
+    # Get item specific info from server
     item = FRONTEND.getItem(store, order_item)
     total_cost = item[1] * quant
+    # ask user to confirm there order
     print(f'You are ordering {quant} {item[0]} from ' +
           f'{FRONTEND.getStoreName(store)} for a total cost of ' +
           f'£{total_cost} and having it delivered to:\n{address}\n\n' +
@@ -129,12 +140,13 @@ def confirm_order(store, order_item, quant, address):
 
 
 def finalise_order(store, order_item, quant, address):
+    # pass order to server to be processed
     return FRONTEND.finaliseOrder(store, order_item, quant, address, CLIENT_ID)
 
 
 def flow_postcode(store, order_item, quant):
     while True:
-        address = submit_postcode()  # add api failed option
+        address = submit_postcode()
         if not address:
             print('Invalid postcode entered')
             return False
@@ -143,16 +155,16 @@ def flow_postcode(store, order_item, quant):
         print(f'Please enter street name for location:\n{address}')
         street = street_name()
         address = f'{number} {street}\n{address}'
-        correct_address = verify_address(address)  # add incorrect option
+        correct_address = verify_address(address)
         if not correct_address:
             continue
         confirm = confirm_order(store, order_item,
-                                quant, address)  # add no option
+                                quant, address)
         if not confirm:
             print('You may redo your order')
             return False
         success = finalise_order(store, order_item,
-                                 quant, address)  # add failed option
+                                 quant, address)
         print('Your order will now be finalised')
         if not success:
             print('There was an error placing your order please try again')
@@ -164,7 +176,7 @@ def flow_postcode(store, order_item, quant):
 
 def flow_quant(store, order_item):
     while True:
-        quant = select_quantity(store, order_item)  # add back option
+        quant = select_quantity(store, order_item)
         if quant == -1:
             return False
         print('Your order will now be placed')
@@ -180,7 +192,7 @@ def flow_quant(store, order_item):
 
 def flow_order_item(store):
     while True:
-        order_item = select_item(store)  # add back option
+        order_item = select_item(store) 
         if order_item == -1:
             return False
         res = flow_quant(store, order_item-1)
@@ -245,6 +257,7 @@ def main():
     # Loopify
 
 
+# Catch any communication errors
 try:
     main()
 except Pyro4.errors.PyroError as e:

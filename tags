@@ -8,161 +8,110 @@
 !_TAG_PROGRAM_VERSION	0.0.0	/381d6ba/
 Backend	src/backend.py	/^class Backend():$/;"	c
 Backend	submit/backend.py	/^class Backend():$/;"	c
-Backend	submit/oop/backend.py	/^class Backend():$/;"	c
 CLIENT_ID	src/client.py	/^CLIENT_ID = 0$/;"	v
 CLIENT_ID	submit/client.py	/^CLIENT_ID = 0$/;"	v
-CLIENT_ID	submit/oop/client.py	/^CLIENT_ID = 0$/;"	v
 Frontend	src/frontend.py	/^class Frontend():$/;"	c
 Frontend	submit/frontend.py	/^class Frontend():$/;"	c
-Frontend	submit/oop/frontend.py	/^class Frontend():$/;"	c
 GreetingMaker	example/nserver.py	/^class GreetingMaker(object):$/;"	c
 NAME	src/backend.py	/^NAME = ''$/;"	v
 NAME	src/backend.py	/^NAME = sys.argv[1]$/;"	v
 NAME	submit/backend.py	/^NAME = ''$/;"	v
 NAME	submit/backend.py	/^NAME = sys.argv[1]$/;"	v
-NAME	submit/oop/backend.py	/^NAME = ''$/;"	v
-NAME	submit/oop/backend.py	/^NAME = sys.argv[1]$/;"	v
 __init__	src/backend.py	/^    def __init__(self):$/;"	m	class:Backend
 __init__	src/frontend.py	/^    def __init__(self):$/;"	m	class:Frontend
 __init__	submit/backend.py	/^    def __init__(self):$/;"	m	class:Backend
 __init__	submit/frontend.py	/^    def __init__(self):$/;"	m	class:Frontend
-__init__	submit/oop/backend.py	/^    def __init__(self):$/;"	m	class:Backend
-__init__	submit/oop/frontend.py	/^    def __init__(self):$/;"	m	class:Frontend
 backend_uri	src/backend.py	/^        backend_uri = daemon.register(Backend)$/;"	v
 backend_uri	submit/backend.py	/^        backend_uri = daemon.register(Backend)$/;"	v
-backend_uri	submit/oop/backend.py	/^        backend_uri = daemon.register(Backend)$/;"	v
 clientId	src/backend.py	/^    def clientId(self, u_id):$/;"	m	class:Backend
 clientId	submit/backend.py	/^    def clientId(self, u_id):$/;"	m	class:Backend
-clientId	submit/oop/backend.py	/^    def clientId(self, u_id):$/;"	m	class:Backend
 confirm_order	src/client.py	/^def confirm_order(store, order_item, quant, address):$/;"	f
 confirm_order	submit/client.py	/^def confirm_order(store, order_item, quant, address):$/;"	f
-confirm_order	submit/oop/client.py	/^def confirm_order(store, order_item, quant, address):$/;"	f
 daemon	example/nserver.py	/^daemon = Pyro4.Daemon()                # make a Pyro daemon$/;"	v
 finaliseOrder	src/backend.py	/^    def finaliseOrder(self, store, order_item, quant, address, client_id, u_id):$/;"	m	class:Backend
 finaliseOrder	src/frontend.py	/^    def finaliseOrder(self, store, order_item, quant, address, client_id):$/;"	m	class:Frontend
 finaliseOrder	submit/backend.py	/^    def finaliseOrder(self, store, order_item, quant, address, client_id, u_id):$/;"	m	class:Backend
 finaliseOrder	submit/frontend.py	/^    def finaliseOrder(self, store, order_item, quant, address, client_id):$/;"	m	class:Frontend
-finaliseOrder	submit/oop/backend.py	/^    def finaliseOrder(self, store, order_item, quant, address, client_id, u_id):$/;"	m	class:Backend
-finaliseOrder	submit/oop/frontend.py	/^    def finaliseOrder(self, store, order_item, quant, address, client_id):$/;"	m	class:Frontend
 finalise_order	src/client.py	/^def finalise_order(store, order_item, quant, address):$/;"	f
 finalise_order	submit/client.py	/^def finalise_order(store, order_item, quant, address):$/;"	f
-finalise_order	submit/oop/client.py	/^def finalise_order(store, order_item, quant, address):$/;"	f
 find_backups	src/backend.py	/^    def find_backups(self):$/;"	m	class:Backend
 find_backups	submit/backend.py	/^    def find_backups(self):$/;"	m	class:Backend
-find_backups	submit/oop/backend.py	/^    def find_backups(self):$/;"	m	class:Backend
 find_primary	src/frontend.py	/^    def find_primary(self):$/;"	m	class:Frontend
 find_primary	submit/frontend.py	/^    def find_primary(self):$/;"	m	class:Frontend
-find_primary	submit/oop/frontend.py	/^    def find_primary(self):$/;"	m	class:Frontend
 flow_order_item	src/client.py	/^def flow_order_item(store):$/;"	f
 flow_order_item	submit/client.py	/^def flow_order_item(store):$/;"	f
-flow_order_item	submit/oop/client.py	/^def flow_order_item(store):$/;"	f
 flow_postcode	src/client.py	/^def flow_postcode(store, order_item, quant):$/;"	f
 flow_postcode	submit/client.py	/^def flow_postcode(store, order_item, quant):$/;"	f
-flow_postcode	submit/oop/client.py	/^def flow_postcode(store, order_item, quant):$/;"	f
 flow_quant	src/client.py	/^def flow_quant(store, order_item):$/;"	f
 flow_quant	submit/client.py	/^def flow_quant(store, order_item):$/;"	f
-flow_quant	submit/oop/client.py	/^def flow_quant(store, order_item):$/;"	f
 flow_store	src/client.py	/^def flow_store(store):$/;"	f
 flow_store	submit/client.py	/^def flow_store(store):$/;"	f
-flow_store	submit/oop/client.py	/^def flow_store(store):$/;"	f
 frontend_uri	src/frontend.py	/^        frontend_uri = daemon.register(Frontend)$/;"	v
 frontend_uri	submit/frontend.py	/^        frontend_uri = daemon.register(Frontend)$/;"	v
-frontend_uri	submit/oop/frontend.py	/^        frontend_uri = daemon.register(Frontend)$/;"	v
 getAddress	src/frontend.py	/^    def getAddress(self, postcode):$/;"	m	class:Frontend
 getAddress	submit/frontend.py	/^    def getAddress(self, postcode):$/;"	m	class:Frontend
-getAddress	submit/oop/frontend.py	/^    def getAddress(self, postcode):$/;"	m	class:Frontend
 getClientID	src/frontend.py	/^    def getClientID(self):$/;"	m	class:Frontend
 getClientID	submit/frontend.py	/^    def getClientID(self):$/;"	m	class:Frontend
-getClientID	submit/oop/frontend.py	/^    def getClientID(self):$/;"	m	class:Frontend
 getItem	src/backend.py	/^    def getItem(self, store, order_item, u_id):$/;"	m	class:Backend
 getItem	src/frontend.py	/^    def getItem(self, store, order_item):$/;"	m	class:Frontend
 getItem	submit/backend.py	/^    def getItem(self, store, order_item, u_id):$/;"	m	class:Backend
 getItem	submit/frontend.py	/^    def getItem(self, store, order_item):$/;"	m	class:Frontend
-getItem	submit/oop/backend.py	/^    def getItem(self, store, order_item, u_id):$/;"	m	class:Backend
-getItem	submit/oop/frontend.py	/^    def getItem(self, store, order_item):$/;"	m	class:Frontend
 getItemName	src/backend.py	/^    def getItemName(self, store, order_item, u_id):$/;"	m	class:Backend
 getItemName	src/frontend.py	/^    def getItemName(self, store, order_item):$/;"	m	class:Frontend
 getItemName	submit/backend.py	/^    def getItemName(self, store, order_item, u_id):$/;"	m	class:Backend
 getItemName	submit/frontend.py	/^    def getItemName(self, store, order_item):$/;"	m	class:Frontend
-getItemName	submit/oop/backend.py	/^    def getItemName(self, store, order_item, u_id):$/;"	m	class:Backend
-getItemName	submit/oop/frontend.py	/^    def getItemName(self, store, order_item):$/;"	m	class:Frontend
 getItems	src/backend.py	/^    def getItems(self, store, u_id):$/;"	m	class:Backend
 getItems	src/frontend.py	/^    def getItems(self, store):$/;"	m	class:Frontend
 getItems	submit/backend.py	/^    def getItems(self, store, u_id):$/;"	m	class:Backend
 getItems	submit/frontend.py	/^    def getItems(self, store):$/;"	m	class:Frontend
-getItems	submit/oop/backend.py	/^    def getItems(self, store, u_id):$/;"	m	class:Backend
-getItems	submit/oop/frontend.py	/^    def getItems(self, store):$/;"	m	class:Frontend
 getOrders	src/backend.py	/^    def getOrders(self, client_id, u_id):$/;"	m	class:Backend
 getOrders	src/frontend.py	/^    def getOrders(self, clientId):$/;"	m	class:Frontend
 getOrders	submit/backend.py	/^    def getOrders(self, client_id, u_id):$/;"	m	class:Backend
 getOrders	submit/frontend.py	/^    def getOrders(self, clientId):$/;"	m	class:Frontend
-getOrders	submit/oop/backend.py	/^    def getOrders(self, client_id, u_id):$/;"	m	class:Backend
-getOrders	submit/oop/frontend.py	/^    def getOrders(self, clientId):$/;"	m	class:Frontend
 getStoreName	src/backend.py	/^    def getStoreName(self, store, u_id):$/;"	m	class:Backend
 getStoreName	src/frontend.py	/^    def getStoreName(self, store):$/;"	m	class:Frontend
 getStoreName	submit/backend.py	/^    def getStoreName(self, store, u_id):$/;"	m	class:Backend
 getStoreName	submit/frontend.py	/^    def getStoreName(self, store):$/;"	m	class:Frontend
-getStoreName	submit/oop/backend.py	/^    def getStoreName(self, store, u_id):$/;"	m	class:Backend
-getStoreName	submit/oop/frontend.py	/^    def getStoreName(self, store):$/;"	m	class:Frontend
 getStores	src/backend.py	/^    def getStores(self, u_id):$/;"	m	class:Backend
 getStores	src/frontend.py	/^    def getStores(self):$/;"	m	class:Frontend
 getStores	submit/backend.py	/^    def getStores(self, u_id):$/;"	m	class:Backend
 getStores	submit/frontend.py	/^    def getStores(self):$/;"	m	class:Frontend
-getStores	submit/oop/backend.py	/^    def getStores(self, u_id):$/;"	m	class:Backend
-getStores	submit/oop/frontend.py	/^    def getStores(self):$/;"	m	class:Frontend
 get_fortune	example/nserver.py	/^    def get_fortune(self):$/;"	m	class:GreetingMaker
 hmm	example/nclient.py	/^hmm = Pyro4.Proxy("PYRONAME:example.greeting")    # use name server object lookup uri shortcut$/;"	v
 house_number	src/client.py	/^def house_number():$/;"	f
 house_number	submit/client.py	/^def house_number():$/;"	f
-house_number	submit/oop/client.py	/^def house_number():$/;"	f
 initBackup	src/backend.py	/^    def initBackup(self, db, resp, new_orders, new_client_id):$/;"	m	class:Backend
 initBackup	submit/backend.py	/^    def initBackup(self, db, resp, new_orders, new_client_id):$/;"	m	class:Backend
-initBackup	submit/oop/backend.py	/^    def initBackup(self, db, resp, new_orders, new_client_id):$/;"	m	class:Backend
 main	src/client.py	/^def main():$/;"	f
 main	submit/client.py	/^def main():$/;"	f
-main	submit/oop/client.py	/^def main():$/;"	f
 name	example/nclient.py	/^name = input("What is your name? ").strip()$/;"	v
 notifyPrimary	src/backend.py	/^    def notifyPrimary(self):$/;"	m	class:Backend
 notifyPrimary	submit/backend.py	/^    def notifyPrimary(self):$/;"	m	class:Backend
-notifyPrimary	submit/oop/backend.py	/^    def notifyPrimary(self):$/;"	m	class:Backend
 ns	example/nserver.py	/^ns = Pyro4.locateNS()                  # find the name server$/;"	v
 order	src/client.py	/^def order():$/;"	f
 order	submit/client.py	/^def order():$/;"	f
-order	submit/oop/client.py	/^def order():$/;"	f
 placeOrder	src/backend.py	/^    def placeOrder(self, store, order_item, quant, u_id):$/;"	m	class:Backend
 placeOrder	src/frontend.py	/^    def placeOrder(self, store, order_item, quant):$/;"	m	class:Frontend
 placeOrder	submit/backend.py	/^    def placeOrder(self, store, order_item, quant, u_id):$/;"	m	class:Backend
 placeOrder	submit/frontend.py	/^    def placeOrder(self, store, order_item, quant):$/;"	m	class:Frontend
-placeOrder	submit/oop/backend.py	/^    def placeOrder(self, store, order_item, quant, u_id):$/;"	m	class:Backend
-placeOrder	submit/oop/frontend.py	/^    def placeOrder(self, store, order_item, quant):$/;"	m	class:Frontend
 place_order	src/client.py	/^def place_order(store, order_item, quant):$/;"	f
 place_order	submit/client.py	/^def place_order(store, order_item, quant):$/;"	f
-place_order	submit/oop/client.py	/^def place_order(store, order_item, quant):$/;"	f
 propogate	src/backend.py	/^    def propogate(self, u_id, resp, new_db, new_orders, new_client_id):$/;"	m	class:Backend
 propogate	submit/backend.py	/^    def propogate(self, u_id, resp, new_db, new_orders, new_client_id):$/;"	m	class:Backend
-propogate	submit/oop/backend.py	/^    def propogate(self, u_id, resp, new_db, new_orders, new_client_id):$/;"	m	class:Backend
 remove_primary	src/frontend.py	/^    def remove_primary(self):$/;"	m	class:Frontend
 remove_primary	submit/frontend.py	/^    def remove_primary(self):$/;"	m	class:Frontend
-remove_primary	submit/oop/frontend.py	/^    def remove_primary(self):$/;"	m	class:Frontend
 select_item	src/client.py	/^def select_item(store):$/;"	f
 select_item	submit/client.py	/^def select_item(store):$/;"	f
-select_item	submit/oop/client.py	/^def select_item(store):$/;"	f
 select_quantity	src/client.py	/^def select_quantity(store, order_item):$/;"	f
 select_quantity	submit/client.py	/^def select_quantity(store, order_item):$/;"	f
-select_quantity	submit/oop/client.py	/^def select_quantity(store, order_item):$/;"	f
 select_store	src/client.py	/^def select_store():$/;"	f
 select_store	submit/client.py	/^def select_store():$/;"	f
-select_store	submit/oop/client.py	/^def select_store():$/;"	f
 street_name	src/client.py	/^def street_name():$/;"	f
 street_name	submit/client.py	/^def street_name():$/;"	f
-street_name	submit/oop/client.py	/^def street_name():$/;"	f
 submit_postcode	src/client.py	/^def submit_postcode():$/;"	f
 submit_postcode	submit/client.py	/^def submit_postcode():$/;"	f
-submit_postcode	submit/oop/client.py	/^def submit_postcode():$/;"	f
 uri	example/nserver.py	/^uri = daemon.register(GreetingMaker)   # register the greeting maker as a Pyro object$/;"	v
 verify_address	src/client.py	/^def verify_address(address):$/;"	f
 verify_address	submit/client.py	/^def verify_address(address):$/;"	f
-verify_address	submit/oop/client.py	/^def verify_address(address):$/;"	f
 view	src/client.py	/^def view():$/;"	f
 view	submit/client.py	/^def view():$/;"	f
-view	submit/oop/client.py	/^def view():$/;"	f

@@ -13,6 +13,7 @@ NAME = ''
 @Pyro4.behavior(instance_mode='single')
 class Backend():
     def __init__(self):
+        # init server data
         self._name = NAME
         self._backups = []
         self._clientID = 1
@@ -33,6 +34,7 @@ class Backend():
     def find_backups(self):
         try:
             with Pyro4.locateNS() as ns:
+                # search for backup servers
                 for backup, backup_uri in ns.list(prefix='justHungry.backend.').items():
                     if backup != f'justHungry.backend.{self._name}':
                         backup_proxy = Pyro4.Proxy(backup_uri)
@@ -43,17 +45,21 @@ class Backend():
                         if exists:
                             continue
                         try:
+                            # pass current state of primary to backup
                             res = backup_proxy.initBackup(self._db, self._responses, self._orders, self._clientID)
                             if not res:
                                 try:
+                                    # if backup dead de register it from nameserver
                                     with Pyro4.locateNS() as ns:
                                         ns.remove(name=backup)
                                 except Pyro4.errors.NamingError:
                                     pass
                             else:
+                                # add to the listof good backups
                                 self._backups.append([backup, backup_proxy])
                         except Pyro4.errors.PyroError:
                             try:
+                                # remove dead backup from nameserver
                                 with Pyro4.locateNS() as ns:
                                     ns.remove(name=backup)
                             except Pyro4.errors.NamingError:
@@ -79,6 +85,7 @@ class Backend():
 
     @Pyro4.expose
     def getItem(self, store, order_item, u_id):
+        # look for any new backup servers
         self.find_backups()
         if u_id in self._responses:
             item = self._responses[u_id]
@@ -176,31 +183,38 @@ class Backend():
             resp = (0 < quant <= self._db[store][1][order_item][2])
             if not resp:
                 return False
+            # process order
             self._responses[u_id] = resp
             self._db[store][1][order_item][2] -= quant
             if client_id not in self._orders:
                 self._orders[client_id] = []
             self._orders[client_id].append(
                 [self._db[store][0], self._db[store][1][order_item][0], quant, quant*self._db[store][1][order_item][1], address])
+            # go through all backup servers
             for backup in self._backups[::]:
                 try:
+                    # try to propogate order
                     res = backup[1].propogate(
                         u_id, client_id, self._db, self._orders, self._clientID)
                     if not res:
                         try:
+                            # if failed remove that backup
                             with Pyro4.locateNS() as ns:
                                 ns.remove(name=backup[0])
                                 self._backups.remove(backup)
+                        # on comm error undo the order and return error
                         except Pyro4.errors.NamingError:
                             self._db[store][1][order_item][2] += quant
                             self._responses[u_id] = False
                             self._orders[client_id].pop()
                             return False
+                # remove dead backups
                 except Pyro4.errors.PyroError:
                     try:
                         with Pyro4.locateNS() as ns:
                             ns.remove(name=backup[0])
                             self._backups.remove(backup)
+                    # on comm error undo order and return error
                     except Pyro4.errors.NamingError:
                         self._db[store][1][order_item][2] += quant
                         self._responses[u_id] = False
@@ -247,10 +261,12 @@ class Backend():
         return True
 
 
+# parse args
 if len(sys.argv) < 2 or len(sys.argv) > 2:
     sys.exit('backend should be called with 1 argument, a unique id for the server')
 NAME = sys.argv[1]
 
+# attempt to register with nameserver
 try:
     with Pyro4.Daemon() as daemon:
         backend_uri = daemon.register(Backend)

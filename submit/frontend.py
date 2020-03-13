@@ -21,6 +21,7 @@ class Frontend():
     def find_primary(self):
         backends = []
         try:
+            # Look for any registered backends with nameserver
             with Pyro4.locateNS() as ns:
                 for backend, backend_uri in ns.list(prefix='justHungry.backend.').items():
                     backends.append([backend, Pyro4.Proxy(backend_uri)])
@@ -31,11 +32,13 @@ class Frontend():
             return False
         for backend in backends:
             try:
+                # ping the backend to see if it exists
                 self._primary = backend
                 success = backend[1].notifyPrimary()
                 if success:
                     return True
                 try:
+                    # if doesnt exist unregister it and check next backend
                     with Pyro4.locateNS() as ns:
                         self.remove_primary()
                 except Pyro4.errors.NamingError:
@@ -49,6 +52,7 @@ class Frontend():
         if self._primary is None:
             return
         try:
+            # de register backend from nameserver
             with Pyro4.locateNS() as ns:
                 ns.remove(name=self._primary[0])
         except Pyro4.errors.NamingError:
@@ -57,14 +61,17 @@ class Frontend():
 
     @Pyro4.expose
     def getStores(self):
+        # check for primary if needed
         if self._primary is None:
             success = self.find_primary()
             if not success:
                 return ['ERROR']
         try:
             self._u_id += 1
+            # ask primary backend for response
             return self._primary[1].getStores(self._u_id-1)
         except Pyro4.errors.PyroError:
+            # Primary crashed try to find new primary
             if not self.find_primary():
                 return ['ERROR']
             return self.getStores()
@@ -187,10 +194,13 @@ class Frontend():
         result = ''
         try:
             try:
+                # escape bad characters in url
                 url = urllib.parse.quote('api.postcodes.io/postcodes/' + postcode)
                 resp = urllib.request.urlopen('https://' + url)
                 try:
+                    # try to parse json response
                     data = json.load(resp)
+                    # append new info to address
                     if data['result']['admin_district']:
                         result += (data['result']['admin_district'] + '\n')
                     if data['result']['admin_ward']:
@@ -204,7 +214,7 @@ class Frontend():
         except urllib.error.URLError:
             return postcode
 
-
+# Attempt to register frontend with nameserver
 try:
     with Pyro4.Daemon() as daemon:
         frontend_uri = daemon.register(Frontend)
