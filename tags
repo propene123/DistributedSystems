@@ -46,7 +46,6 @@ get_fortune	example/nserver.py	/^    def get_fortune(self):$/;"	m	class:Greeting
 hmm	example/nclient.py	/^hmm = Pyro4.Proxy("PYRONAME:example.greeting")    # use name server object lookup uri shortcut$/;"	v
 house_number	src/client.py	/^def house_number():$/;"	f
 initBackup	src/backend.py	/^    def initBackup(self, db, resp, new_orders, new_client_id):$/;"	m	class:Backend
-kek	src/hmm.py	/^kek = 0$/;"	v
 main	src/client.py	/^def main():$/;"	f
 name	example/nclient.py	/^name = input("What is your name? ").strip()$/;"	v
 notifyPrimary	src/backend.py	/^    def notifyPrimary(self):$/;"	m	class:Backend

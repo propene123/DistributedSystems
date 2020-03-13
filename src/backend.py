@@ -174,6 +174,8 @@ class Backend():
             resp = self._responses[u_id]
         else:
             resp = (0 < quant <= self._db[store][1][order_item][2])
+            if not resp:
+                return False
             self._responses[u_id] = resp
             self._db[store][1][order_item][2] -= quant
             if client_id not in self._orders:
