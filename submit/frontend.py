@@ -1,4 +1,5 @@
 import urllib.request
+import urllib.parse
 import urllib.error
 import json
 import sys
@@ -186,8 +187,8 @@ class Frontend():
         result = ''
         try:
             try:
-                resp = urllib.request.urlopen('https://api.postcodes.io/' +
-                                              'postcodes/' + postcode)
+                url = urllib.parse.quote('api.postcodes.io/postcodes/' + postcode)
+                resp = urllib.request.urlopen('https://' + url)
                 try:
                     data = json.load(resp)
                     if data['result']['admin_district']:

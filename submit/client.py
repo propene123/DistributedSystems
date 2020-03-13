@@ -247,5 +247,6 @@ def main():
 
 try:
     main()
-except Pyro4.errors.PyroError:
+except Pyro4.errors.PyroError as e:
+    print(e)
     sys.exit('Cannot connect to the Just Hungry Store. Exiting client')
